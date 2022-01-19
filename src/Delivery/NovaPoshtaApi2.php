@@ -215,6 +215,9 @@ class NovaPoshtaApi2
                 ? $data
                 : json_decode($data, true);
             // If error exists, throw Exception
+            if ($this->throwErrors AND (!is_array($result) OR !isset($result['success']) OR !$result['success'])) {
+                dd($data, $result, 321);
+            }
             if ($this->throwErrors and array_key_exists('errors', $result) and $result['errors']) {
                 throw new \Exception(is_array($result['errors']) ? implode("\n", $result['errors']) : $result['errors']);
             }
@@ -417,7 +420,7 @@ class NovaPoshtaApi2
             'Page' => $page,
         ));
     }
-    
+
     /**
      * Get warehouse types.
      *
@@ -426,7 +429,7 @@ class NovaPoshtaApi2
     public function getWarehouseTypes()
     {
         return $this->request('Address', 'getWarehouseTypes');
-    }    
+    }
 
     /**
      * Get 5 nearest warehouses by array of strings.
@@ -627,7 +630,7 @@ class NovaPoshtaApi2
             foreach ($data as $cityData) {
                 $warehouseData = $this->getWarehouse($cityData['Ref'], $warehouseDescription);
                 $warehouseDescriptions = array(
-                    $warehouseData['data'][0]['Description'], 
+                    $warehouseData['data'][0]['Description'],
                     $warehouseData['data'][0]['DescriptionRu']
                 );
                 if (in_array($warehouseDescription, $warehouseDescriptions)) {
