@@ -1027,6 +1027,7 @@ class NovaPoshtaApi2
         // Prepare recipient data
         $recipient['CounterpartyProperty'] = 'Recipient';
         $recipient['RecipientsPhone'] = $recipient['Phone'];
+        $recipient['RecipientsEmail'] = $recipient['Email'];
         if (empty($recipient['CityRecipient'])) {
             $recipientCity = $this->getCity($recipient['City'], $recipient['Region'], $recipient['Warehouse']);
             $recipient['CityRecipient'] = $recipientCity['data'][0]['Ref'];
